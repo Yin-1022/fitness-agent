@@ -1,18 +1,17 @@
 from dataclasses import dataclass
 from datetime import datetime
-from sqlalchemy import String, Integer, Float, DateTime
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import Optional
 
 @dataclass
 class UserProfile:
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(100), nullable=False)
-    height_cm: Mapped[float] = mapped_column(Float, nullable=False)
-    goal: Mapped[str] = mapped_column(String(100), nullable=False)
-    weekly_training_days_goal: Mapped[int] = mapped_column(Integer, nullable=False)
-    experience_level: Mapped[str] = mapped_column(String(50), nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    id: str
+    name: str
+    height_cm: Optional[float] = None
+    goal: str
+    weekly_training_days_goal: int
+    experience_level: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
 
     def __post_init__(self):
         if self.name is None or self.name.strip() == "":
@@ -21,7 +20,3 @@ class UserProfile:
             raise ValueError("Height must be a positive value.")
         if self.weekly_training_days_goal < 0 or self.weekly_training_days_goal > 7:
             raise ValueError("Weekly training days goal must be between 0 and 7.")
-
-    workout_sessions = relationship("WorkoutSession", backref="user_profile", cascade="all, delete-orphan")
-    body_status_logs = relationship("BodyStatusLog", backref="user_profile", cascade="all, delete-orphan")
-    body_measurements = relationship("BodyMeasurement", backref="user_profile", cascade="all, delete-orphan")

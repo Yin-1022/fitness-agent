@@ -1,24 +1,23 @@
 from dataclasses import dataclass
 from datetime import datetime
-from sqlalchemy import String, Integer, Float, DateTime, ForeignKey, Text
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import Optional
 
 @dataclass
 class BodyStatusLog:
-    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    user_id: Mapped[str] = mapped_column(String(100), ForeignKey("user_profile.id"), nullable=False)
-    date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    sleep_hours: Mapped[float] = mapped_column(Float, nullable=False)
-    sleep_quality: Mapped[int] = mapped_column(Integer, nullable=False)
-    fatigue_level: Mapped[int] = mapped_column(Integer, nullable=False)
-    stress_level: Mapped[int] = mapped_column(Integer, nullable=False)
-    soreness_level: Mapped[int] = mapped_column(Integer, nullable=True)
-    soreness_parts: Mapped[list[str]] = mapped_column(Text, nullable=True)
-    mood_level: Mapped[int] = mapped_column(Integer, nullable=True)
-    notes: Mapped[str] = mapped_column(Text, nullable=True)
-    source: Mapped[str] = mapped_column(String(100), nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
-    updated_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    id: str
+    user_id: str
+    date: datetime
+    sleep_hours: float
+    sleep_quality: int
+    fatigue_level: int
+    stress_level: int
+    soreness_level: Optional[int] = None
+    soreness_parts: Optional[list[str]] = None
+    mood_level: Optional[int] = None
+    notes: Optional[str] = None
+    source: Optional[str] = None
+    created_at: datetime
+    updated_at: datetime
 
     def __post_init__(self):
         if self.sleep_hours < 0:
@@ -33,5 +32,3 @@ class BodyStatusLog:
             raise ValueError("Soreness level must be between 1 and 10.")
         if self.mood_level is not None and (self.mood_level < 1 or self.mood_level > 10):
             raise ValueError("Mood level must be between 1 and 10.")
-
-    user_profile = relationship("UserProfile", backref="body_status_logs")
