@@ -11,13 +11,13 @@ class BodyStatusLog:
     sleep_quality: int
     fatigue_level: int
     stress_level: int
+    created_at: datetime
+    updated_at: datetime
     soreness_level: Optional[int] = None
     soreness_parts: Optional[list[str]] = None
     mood_level: Optional[int] = None
     notes: Optional[str] = None
     source: Optional[str] = None
-    created_at: datetime
-    updated_at: datetime
 
     def __post_init__(self):
         if self.sleep_hours < 0:

@@ -9,13 +9,13 @@ class WorkoutSession:
     date: datetime
     duration_minutes: int
     workout_type: str
-    title: Optional[str] = None
     muscle_groups: list[str]
     intensity_level: str
-    notes: Optional[str] = None
     source: str
     created_at: datetime
     updated_at: datetime
+    title: Optional[str] = None
+    notes: Optional[str] = None
 
     def __post_init__(self):
         if self.user_id is None or self.user_id.strip() == "":
