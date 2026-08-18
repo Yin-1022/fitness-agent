@@ -1,3 +1,4 @@
+import pytest
 from datetime import datetime
 from app.features.health_log.domain.entities.user_profile import UserProfile
 from app.features.health_log.domain.entities.workout_session import WorkoutSession
@@ -23,7 +24,7 @@ def test_user_profile_creation():
     assert user_profile.experience_level == "Intermediate"
 
 def test_user_profile_invaild():
-    try:
+    with pytest.raises(ValueError) as exc_info:
         UserProfile(
             id=1,
             name="",
@@ -34,10 +35,9 @@ def test_user_profile_invaild():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Name cannot be empty."
+    assert str(exc_info.value) == "Name cannot be empty."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         UserProfile(
             id=1,
             name="John Doe",
@@ -48,10 +48,9 @@ def test_user_profile_invaild():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Height must be a positive value."
+    assert str(exc_info.value) == "Height must be a positive value."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         UserProfile(
             id=1,
             name="John Doe",
@@ -62,8 +61,7 @@ def test_user_profile_invaild():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Weekly training days goal must be between 0 and 7."
+    assert str(exc_info.value) == "Weekly training days goal must be between 0 and 7."
 
 def test_workout_session_creation():
     workout_session = WorkoutSession(
@@ -84,7 +82,7 @@ def test_workout_session_creation():
     assert workout_session.duration_minutes == 60
 
 def test_workout_session_invalid():
-    try:
+    with pytest.raises(ValueError) as exc_info:
         WorkoutSession(
             id=1,
             user_id=None,
@@ -99,10 +97,9 @@ def test_workout_session_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == ("User ID cannot be empty or zero.")
+    assert str(exc_info.value) == ("User ID cannot be empty or zero.")
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         WorkoutSession(
             id=1,
             user_id=1,
@@ -117,10 +114,9 @@ def test_workout_session_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Duration must be a non-negative value."
+    assert str(exc_info.value) == "Duration must be a non-negative value."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         WorkoutSession(
             id=1,
             user_id=1,
@@ -135,10 +131,9 @@ def test_workout_session_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Intensity level must be between 1 and 10."
+    assert str(exc_info.value) == "Intensity level must be between 1 and 10."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         WorkoutSession(
             id=1,
             user_id=1,
@@ -153,8 +148,7 @@ def test_workout_session_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Workout type cannot be empty."
+    assert str(exc_info.value) == "Workout type cannot be empty."
 
 def test_exercise_record_creation():
     exercise_record = ExerciseRecord(
@@ -172,7 +166,7 @@ def test_exercise_record_creation():
     assert exercise_record.weight_kg == 80.0
 
 def test_exercise_record_invalid():
-    try:
+    with pytest.raises(ValueError) as exc_info:
         ExerciseRecord(
             id=1,
             workout_session_id=1,
@@ -182,10 +176,9 @@ def test_exercise_record_invalid():
             reps=10,
             weight_kg=80.0,
         )
-    except ValueError as e:
-        assert str(e) == "Exercise name cannot be empty."
+    assert str(exc_info.value) == "Exercise name cannot be empty."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         ExerciseRecord(
             id=1,
             workout_session_id=1,
@@ -195,10 +188,9 @@ def test_exercise_record_invalid():
             reps=10,
             weight_kg=80.0,
         )
-    except ValueError as e:
-        assert str(e) == "Sets must be a positive value."
+    assert str(exc_info.value) == "Sets must be a positive value."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         ExerciseRecord(
             id=1,
             workout_session_id=1,
@@ -208,9 +200,8 @@ def test_exercise_record_invalid():
             reps=-10,
             weight_kg=80.0,
         )
-    except ValueError as e:
-        assert str(e) == "Reps must be a positive value."
-    try:
+    assert str(exc_info.value) == "Reps must be a positive value."
+    with pytest.raises(ValueError) as exc_info:
         ExerciseRecord(
             id=1,
             workout_session_id=1,
@@ -220,9 +211,9 @@ def test_exercise_record_invalid():
             reps=10,
             weight_kg=-80.0,
         )
-    except ValueError as e:
-        assert str(e) == "Weight must be a non-negative value."
-    try:
+    assert str(exc_info.value) == "Weight must be a non-negative value."
+
+    with pytest.raises(ValueError) as exc_info:
         ExerciseRecord(
             id=1,
             workout_session_id=1,
@@ -233,9 +224,9 @@ def test_exercise_record_invalid():
             weight_kg=80.0,
             distance_km=-5.0
         )
-    except ValueError as e:
-        assert str(e) == "Distance must be a non-negative value."
-    try:
+    assert str(exc_info.value) == "Distance must be a non-negative value."
+    
+    with pytest.raises(ValueError) as exc_info:
         ExerciseRecord(
             id=1,
             workout_session_id=1,
@@ -246,8 +237,7 @@ def test_exercise_record_invalid():
             weight_kg=80.0,
             duration_minutes=-30
         )
-    except ValueError as e:
-        assert str(e) == "Duration must be a non-negative value."
+    assert str(exc_info.value) == "Duration must be a non-negative value."
 
 def test_body_measurement_creation():
     body_measurement = BodyMeasurement(
@@ -263,7 +253,7 @@ def test_body_measurement_creation():
     assert body_measurement.body_fat_percentage == 15.0
 
 def test_body_measurement_invalid():
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyMeasurement(
             id=1,
             user_id=1,
@@ -272,10 +262,9 @@ def test_body_measurement_invalid():
             body_fat_percentage=15.0,
             created_at=datetime.now(),
         )
-    except ValueError as e:
-        assert str(e) == "Weight must be a positive value."
+    assert str(exc_info.value) == "Weight must be a positive value."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyMeasurement(
             id=1,
             user_id=1,
@@ -284,10 +273,9 @@ def test_body_measurement_invalid():
             body_fat_percentage=150.0,
             created_at=datetime.now(),
         )
-    except ValueError as e:
-        assert str(e) == "Body fat percentage must be between 0 and 100."
+    assert str(exc_info.value) == "Body fat percentage must be between 0 and 100."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyMeasurement(
             id=1,
             user_id=1,
@@ -297,10 +285,9 @@ def test_body_measurement_invalid():
             body_fat_mass_kg=-5.0,
             created_at=datetime.now(),
         )
-    except ValueError as e:
-        assert str(e) == "Body fat mass must be a non-negative value."
+    assert str(exc_info.value) == "Body fat mass must be a non-negative value."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyMeasurement(
             id=1,
             user_id=1,
@@ -310,10 +297,9 @@ def test_body_measurement_invalid():
             muscle_mass_kg=-10.0,
             created_at=datetime.now(),
         )
-    except ValueError as e:
-        assert str(e) == "Muscle mass must be a non-negative value."
+    assert str(exc_info.value) == "Muscle mass must be a non-negative value."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyMeasurement(
             id=1,
             user_id=1,
@@ -323,8 +309,7 @@ def test_body_measurement_invalid():
             bmi=-22.0,
             created_at=datetime.now(),
         )
-    except ValueError as e:
-        assert str(e) == "BMI must be a positive value."
+    assert str(exc_info.value) == "BMI must be a positive value."
 
 def test_body_status_log_creation():
     body_status_log = BodyStatusLog(
@@ -348,7 +333,7 @@ def test_body_status_log_creation():
     assert body_status_log.sleep_quality == 8
 
 def test_body_status_log_invalid():
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyStatusLog(
             id=1,
             user_id=1,
@@ -365,10 +350,9 @@ def test_body_status_log_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Sleep hours must be a non-negative value."
+    assert str(exc_info.value) == "Sleep hours must be a non-negative value."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyStatusLog(
             id=1,
             user_id=1,
@@ -385,10 +369,9 @@ def test_body_status_log_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Sleep quality must be between 1 and 10."
+    assert str(exc_info.value) == "Sleep quality must be between 1 and 10."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyStatusLog(
             id=1,
             user_id=1,
@@ -405,10 +388,9 @@ def test_body_status_log_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Fatigue level must be between 1 and 10."
+    assert str(exc_info.value) == "Fatigue level must be between 1 and 10."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyStatusLog(
             id=1,
             user_id=1,
@@ -425,10 +407,9 @@ def test_body_status_log_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Stress level must be between 1 and 10."
+    assert str(exc_info.value) == "Stress level must be between 1 and 10."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyStatusLog(
             id=1,
             user_id=1,
@@ -445,10 +426,9 @@ def test_body_status_log_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Soreness level must be between 1 and 10."
+    assert str(exc_info.value) == "Soreness level must be between 1 and 10."
 
-    try:
+    with pytest.raises(ValueError) as exc_info:
         BodyStatusLog(
             id=1,
             user_id=1,
@@ -465,5 +445,4 @@ def test_body_status_log_invalid():
             created_at=datetime.now(),
             updated_at=datetime.now()
         )
-    except ValueError as e:
-        assert str(e) == "Mood level must be between 1 and 10."
+    assert str(exc_info.value) == "Mood level must be between 1 and 10."
