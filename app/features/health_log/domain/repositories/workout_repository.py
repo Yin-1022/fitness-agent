@@ -5,25 +5,25 @@ from app.features.health_log.domain.entities.exercise_record import ExerciseReco
 
 class WorkoutRepository(ABC):
     @abstractmethod
-    def create_workout_session(workout_session: WorkoutSession) -> WorkoutSession:
+    def create_workout_session(self, workout_session: WorkoutSession) -> WorkoutSession:
         ...
 
     @abstractmethod
-    def get_workout_session_by_id(session_id: int) -> WorkoutSession | None:
+    def get_workout_session_by_id(self, session_id: int) -> WorkoutSession | None:
         ...
 
     @abstractmethod
-    def get_workout_sessions_by_user(user_id: str) -> list[WorkoutSession]:
+    def get_workout_sessions_by_user(self, user_id: str) -> list[WorkoutSession]:
         ...
 
     @abstractmethod
-    def get_workout_sessions_by_date_range(user_id: str, start_date: date, end_date: date) -> list[WorkoutSession]:
+    def get_workout_sessions_by_date_range(self, user_id: str, start_date: date, end_date: date) -> list[WorkoutSession]:
         ...
 
     @abstractmethod
-    def create_exercise_record(record: ExerciseRecord) -> ExerciseRecord:
+    def create_exercise_record(self, record: ExerciseRecord) -> ExerciseRecord:
         ...
 
     @abstractmethod
-    def get_exercise_records_by_session(session_id: int) -> list[ExerciseRecord]:
+    def get_exercise_records_by_session(self, session_id: int) -> list[ExerciseRecord]:
         ...

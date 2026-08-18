@@ -10,7 +10,7 @@ class WorkoutSession:
     duration_minutes: int
     workout_type: str
     muscle_groups: list[str]
-    intensity_level: str
+    intensity_level: int
     source: str
     created_at: datetime
     updated_at: datetime
