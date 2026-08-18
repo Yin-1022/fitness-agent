@@ -4,8 +4,8 @@ from typing import Optional
 
 @dataclass
 class WorkoutSession:
-    id: str
-    user_id: str
+    id: int | None
+    user_id: int
     date: datetime
     duration_minutes: int
     workout_type: str
@@ -18,11 +18,11 @@ class WorkoutSession:
     notes: Optional[str] = None
 
     def __post_init__(self):
-        if self.user_id is None or self.user_id.strip() == "":
-            raise ValueError("User ID cannot be empty.")
-        if self.duration_minutes <= 0:
-            raise ValueError("Duration must be a positive value.")
-        if self.intensity_level<1 or self.intensity_level>10:
+        if self.user_id is None or self.user_id <= 0:
+            raise ValueError("User ID cannot be empty or zero.")
+        if self.duration_minutes < 0:
+            raise ValueError("Duration must be a non-negative value.")
+        if self.intensity_level < 1 or self.intensity_level > 10:
             raise ValueError("Intensity level must be between 1 and 10.")
         if self.workout_type is None or self.workout_type.strip() == "":
             raise ValueError("Workout type cannot be empty.")

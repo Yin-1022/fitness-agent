@@ -13,11 +13,11 @@ class WorkoutRepository(ABC):
         ...
 
     @abstractmethod
-    def get_workout_sessions_by_user(self, user_id: str) -> list[WorkoutSession]:
+    def get_workout_sessions_by_user(self, user_id: int) -> list[WorkoutSession]:
         ...
 
     @abstractmethod
-    def get_workout_sessions_by_date_range(self, user_id: str, start_date: date, end_date: date) -> list[WorkoutSession]:
+    def get_workout_sessions_by_date_range(self, user_id: int, start_date: date, end_date: date) -> list[WorkoutSession]:
         ...
 
     @abstractmethod

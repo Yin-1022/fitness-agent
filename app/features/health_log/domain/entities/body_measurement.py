@@ -4,8 +4,8 @@ from typing import Optional
 
 @dataclass
 class BodyMeasurement:
-    id: str
-    user_id: str
+    id: int | None
+    user_id: int
     date: datetime
     created_at: datetime
     weight_kg: Optional[float] = None

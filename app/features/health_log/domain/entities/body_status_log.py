@@ -4,8 +4,8 @@ from typing import Optional
 
 @dataclass
 class BodyStatusLog:
-    id: str
-    user_id: str
+    id: int | None
+    user_id: int
     date: datetime
     sleep_hours: float
     sleep_quality: int

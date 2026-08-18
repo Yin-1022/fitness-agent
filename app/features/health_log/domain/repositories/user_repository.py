@@ -7,7 +7,7 @@ class UserRepository(ABC):
         ...
 
     @abstractmethod
-    def get_user_by_id(self, user_id: str) -> UserProfile | None:
+    def get_user_by_id(self, user_id: int) -> UserProfile | None:
         ...
 
     @abstractmethod

@@ -8,13 +8,13 @@ class BodyStatusRepository(ABC):
         ...
 
     @abstractmethod
-    def get_body_status_logs_by_user(self, user_id: str) -> list[BodyStatusLog]:
+    def get_body_status_logs_by_user(self, user_id: int) -> list[BodyStatusLog]:
         ...
 
     @abstractmethod
-    def get_body_status_logs_by_date_range(self, user_id: str, start_date: date, end_date: date) -> list[BodyStatusLog]:
+    def get_body_status_logs_by_date_range(self, user_id: int, start_date: date, end_date: date) -> list[BodyStatusLog]:
         ...
 
     @abstractmethod
-    def get_body_status_log_by_date(self, user_id: str, target_date: date) -> BodyStatusLog | None:
+    def get_body_status_log_by_date(self, user_id: int, target_date: date) -> BodyStatusLog | None:
         ...

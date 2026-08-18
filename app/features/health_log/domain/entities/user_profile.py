@@ -4,7 +4,7 @@ from typing import Optional
 
 @dataclass
 class UserProfile:
-    id: str
+    id: int | None
     name: str
     goal: str
     weekly_training_days_goal: int
